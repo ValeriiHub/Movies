@@ -17,19 +17,27 @@ class MovieCell: UITableViewCell {
     
     func configure(_ movie: Movie) {
         titleLabel.text = movie.title
-        releaseDateLabel.text = movie.releaseDate
+        releaseDateLabel.text = convertDate(from: movie.releaseDate)
         languageLabel.text = movie.originalLanguage == "en" ? "🇺🇸" : "🇪🇸"
         ratingLabel.text = "⭐️ \(movie.voteAverage ?? 0)"
         
+        guard let urlString = movie.posterPath else { return }
+        guard let imageUrl = URL(string: posterUrl + urlString ) else { return }
         DispatchQueue.global().async {
-            guard let urlString = movie.posterPath else { return }
-            guard let imageUrl = URL(string: posterUrl + urlString ) else { return }
             guard let imageData = try? Data(contentsOf: imageUrl) else { return }
-            
             DispatchQueue.main.async {
                 self.posterImage.image = UIImage(data: imageData)
             }
         }
     }
-
+    
+    func convertDate(from string: String?) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        if let releaseDate = dateFormatter.date(from: string ?? "") {
+            dateFormatter.dateFormat = "MMM d, yyyy"
+            return dateFormatter.string(from: releaseDate)
+        }
+        return ""
+    }
 }
