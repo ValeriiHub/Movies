@@ -10,14 +10,12 @@ let posterUrl = "https://image.tmdb.org/t/p/w500/"
 
 class MoviesTableViewController: UITableViewController {
     
-    let urlString = "https://api.themoviedb.org/3/movie/popular?api_key=799ad00db48f25949a3aaea920d756d6"
     var movies: [Movie] = []
-    let networking = Networking()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        networking.fetchData(urlString: urlString) { movies in
+        Networking.shared.fetchData(urlString: Url.urlDetail + Url.popular + Url.apiKey) { (movies: Result) in
             self.movies = movies.results
             DispatchQueue.main.async {
                 self.tableView.reloadData()
