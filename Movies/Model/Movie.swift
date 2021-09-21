@@ -8,12 +8,12 @@
 import Foundation
 
 // MARK: - Result
-struct Result: Codable {
+struct Result: Decodable {
     let results: [Movie]
 }
 
 // MARK: - Movie
-struct Movie: Codable {
+struct Movie: Decodable {
     let backdropPath: String?
     let id: Int?
     let originalLanguage: String?
