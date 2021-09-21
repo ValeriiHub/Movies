@@ -15,7 +15,7 @@ class MoviesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        Networking.shared.fetchData(urlString: Url.urlDetail + Url.popular + Url.apiKey) { (movies: Result) in
+        Networking.shared.fetchData(urlString: "\(Url.urlDetail)\(Url.popular)\(Url.apiKey)") { (movies: Result) in
             self.movies = movies.results
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -28,7 +28,6 @@ class MoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movies.count
     }
-    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MovieCell

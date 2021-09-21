@@ -7,10 +7,12 @@
 
 import Foundation
 
+// MARK: - Trailer
 struct Trailer: Decodable {
     let results: [ResultKey]
 }
 
+// MARK: - ResultKey
 struct ResultKey: Decodable {
     let key: String?
 }
