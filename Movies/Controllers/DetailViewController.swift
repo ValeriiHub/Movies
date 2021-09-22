@@ -6,8 +6,13 @@
 //
 
 import UIKit
+import SDWebImage
+
+// MARK: - DetailViewController
 
 class DetailViewController: UIViewController {
+    
+    // MARK: - IBOutlets
     
     @IBOutlet weak var posterImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -18,7 +23,11 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var genresLabel: UILabel!
     @IBOutlet weak var revenueLabel: UILabel!
     
+    // MARK: - Public properties
+    
     var movie: Movie?
+    
+    // MARK: - Lifecycle
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,18 +40,15 @@ class DetailViewController: UIViewController {
         }
     }
 
+    // MARK: - Private methods
+    
     private func configure(from movie: Movie) {
         titleLabel.text = movie.title
         overviewTextView.text = movie.overview
         ratingLabel.text = "⭐️ \(movie.voteAverage)"
     
         guard let imageUrl = URL(string: Url.urlPoster + movie.backdropPath) else { return }
-        DispatchQueue.global().async { [weak self] in
-            guard let imageData = try? Data(contentsOf: imageUrl) else { return }
-            DispatchQueue.main.async {
-                self?.posterImage.image = UIImage(data: imageData)
-            }
-        }
+        posterImage.sd_setImage(with: imageUrl, placeholderImage: #imageLiteral(resourceName: "Movies"))
     }
     
     private func configureDetail(from movie: Movie) { 
@@ -56,6 +62,8 @@ class DetailViewController: UIViewController {
             }
         }
     }
+    
+    // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let trailerVC = segue.destination as? TrailerViewController {

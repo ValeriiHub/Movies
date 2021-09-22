@@ -8,11 +8,19 @@
 import UIKit
 import WebKit
 
+// MARK: - TrailerViewController
+
 class TrailerViewController: UIViewController {
 
+    // MARK: - IBOutlets
+    
     @IBOutlet weak var trailerWebView: WKWebView!
     
+    // MARK: - Public properties
+    
     var id: Int?
+    
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +29,8 @@ class TrailerViewController: UIViewController {
             fetchTrailerKey(from: id)
         }
     }
+    
+    // MARK: - Private methods
     
     private func fetchTrailerKey(from id: Int) {
         Networking.shared.fetchTrailer(id: id) { trailer in

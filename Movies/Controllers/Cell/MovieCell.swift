@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class MovieCell: UITableViewCell {
 
@@ -24,12 +25,7 @@ class MovieCell: UITableViewCell {
         ratingLabel.text = "⭐️ \(movie.voteAverage)"
         
         guard let imageUrl = URL(string: Url.urlPoster + movie.posterPath ) else { return }
-        DispatchQueue.global().async {
-            guard let imageData = try? Data(contentsOf: imageUrl) else { return }
-            DispatchQueue.main.async { [weak self] in
-                self?.posterImage.image = UIImage(data: imageData)
-            }
-        }
+        posterImage.sd_setImage(with: imageUrl, placeholderImage: #imageLiteral(resourceName: "Movies"))
     }
     
     private func convertDate(from string: String?) -> String {

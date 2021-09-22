@@ -7,9 +7,15 @@
 
 import UIKit
 
+// MARK: - MoviesTableViewController
+
 class MoviesTableViewController: UITableViewController {
     
+    // MARK: - Private properties
+    
     private var movies: [Movie] = []
+    
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()

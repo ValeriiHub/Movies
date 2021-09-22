@@ -7,16 +7,22 @@
 
 import Foundation
 
+// MARK: - Url
+
 enum Url {
     static let urlDetail: String = "https://api.themoviedb.org/3/movie/"
-    static let apiKey: String = "api_key=799ad00db48f25949a3aaea920d756d6"
+    static let apiKey: String = "api_key=60f7f0bece03e78f837cf689be13d68f"
     static let urlPoster: String = "https://image.tmdb.org/t/p/w500"
     static let urlYoutube: String = "https://www.youtube.com/watch?v="
     static let popular: String = "popular?"
     static let videos: String = "/videos?"
 }
 
+// MARK: - Networking
+
 class Networking {
+    
+    // MARK: - Static properties
     
  static var shared = Networking()
     
