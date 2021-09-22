@@ -6,16 +6,15 @@
 //
 
 import UIKit
-let posterUrl = "https://image.tmdb.org/t/p/w500/"
 
 class MoviesTableViewController: UITableViewController {
     
-    var movies: [Movie] = []
+    private var movies: [Movie] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        Networking.shared.fetchData(urlString: "\(Url.urlDetail)\(Url.popular)\(Url.apiKey)") { (movies: Result) in
+        Networking.shared.fetchResult { movies in
             self.movies = movies.results
             DispatchQueue.main.async {
                 self.tableView.reloadData()

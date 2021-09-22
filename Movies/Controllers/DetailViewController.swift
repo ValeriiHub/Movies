@@ -19,7 +19,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var revenueLabel: UILabel!
     
     var movie: Movie?
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,31 +31,27 @@ class DetailViewController: UIViewController {
         }
     }
 
-    func configure(from movie: Movie) {
+    private func configure(from movie: Movie) {
         titleLabel.text = movie.title
         overviewTextView.text = movie.overview
-        ratingLabel.text = "⭐️ \(movie.voteAverage ?? 0)"
+        ratingLabel.text = "⭐️ \(movie.voteAverage)"
     
-        guard let urlString = movie.backdropPath else { return }
-        guard let imageUrl = URL(string: posterUrl + urlString ) else { return }
-        DispatchQueue.global().async {
+        guard let imageUrl = URL(string: Url.urlPoster + movie.backdropPath) else { return }
+        DispatchQueue.global().async { [weak self] in
             guard let imageData = try? Data(contentsOf: imageUrl) else { return }
             DispatchQueue.main.async {
-                self.posterImage.image = UIImage(data: imageData)
+                self?.posterImage.image = UIImage(data: imageData)
             }
         }
     }
     
-    func configureDetail(from movie: Movie) {
-        if let id = movie.id {
-            let url = "\(Url.urlDetail)\(id)?\(Url.apiKey)"
-            Networking.shared.fetchData(urlString: url) { (movieDetail: MovieDetail) in
-                DispatchQueue.main.async {
-                    self.runtimeLabel.text = "🕒 \(movieDetail.runtime ?? 0) min"
-                    self.genresLabel.text = movieDetail.genres.first?.name
-                    if let revenue = movieDetail.revenue, revenue != 0 {
-                        self.revenueLabel.text = "Revenue 💲 \(revenue / 1000000) million"
-                    }
+    private func configureDetail(from movie: Movie) { 
+        Networking.shared.fetchMovieDetail(id: movie.id) { movieDetail in
+            DispatchQueue.main.async { [weak self] in
+                self?.runtimeLabel.text = "🕒 \(movieDetail.runtime) min"
+                self?.genresLabel.text = movieDetail.genres.first?.name
+                if movieDetail.revenue != 0 {
+                    self?.revenueLabel.text = "Revenue 💲 \(movieDetail.revenue / 1000000) million"
                 }
             }
         }

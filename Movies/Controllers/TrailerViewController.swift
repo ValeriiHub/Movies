@@ -17,21 +17,23 @@ class TrailerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchTrailerKey(from: id)
+        if let id = id {
+            fetchTrailerKey(from: id)
+        }
     }
     
-    private func fetchTrailerKey(from id: Int?) {
-        guard let id = id else { return }
-        let url = "\(Url.urlDetail)\(id)\(Url.videos)\(Url.apiKey)"
-        Networking.shared.fetchData(urlString: url) { (trailer: Trailer) in
-            DispatchQueue.main.async {
-                self.fetchTrailer(from: trailer.results.first?.key)
+    private func fetchTrailerKey(from id: Int) {
+        Networking.shared.fetchTrailer(id: id) { trailer in
+            DispatchQueue.main.async { [weak self] in
+                if let key = trailer.results.first?.key {
+                    self?.fetchTrailer(from: key)
+                }
+                
             }
         }
     }
     
-    private func fetchTrailer(from trailerKey: String?) {
-        guard let trailerKey = trailerKey else { return }
+    private func fetchTrailer(from trailerKey: String) {
         guard let url = URL(string: Url.urlYoutube + trailerKey) else { return }
         let urlRequest = URLRequest(url: url)
         trailerWebView.load(urlRequest)

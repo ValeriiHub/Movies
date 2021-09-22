@@ -10,8 +10,8 @@ import Foundation
 // MARK: - MovieDetail
 struct MovieDetail: Decodable {
     let genres: [Genre]
-    let revenue, runtime: Int?
-    let status: String?
+    let revenue, runtime: Int
+    let status: String
 }
 
 // MARK: - Genre

@@ -14,20 +14,18 @@ struct Result: Decodable {
 
 // MARK: - Movie
 struct Movie: Decodable {
-    let backdropPath: String?
-    let id: Int?
-    let originalLanguage: String?
-    let originalTitle, overview: String?
-    let popularity: Double?
-    let posterPath, releaseDate, title: String?
-    let voteAverage: Double?
+    let backdropPath: String
+    let id: Int
+    let originalLanguage: String
+    let overview: String
+    let posterPath, releaseDate, title: String
+    let voteAverage: Double
 
     enum CodingKeys: String, CodingKey {
         case backdropPath = "backdrop_path"
         case id
         case originalLanguage = "original_language"
-        case originalTitle = "original_title"
-        case overview, popularity
+        case overview
         case posterPath = "poster_path"
         case releaseDate = "release_date"
         case title

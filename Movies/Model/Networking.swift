@@ -19,8 +19,24 @@ enum Url {
 class Networking {
     
  static var shared = Networking()
+    
+    // MARK: - Public methods
+    
+    func fetchResult(_ completion: @escaping (Result) -> Void) {
+        fetchData(urlString: "\(Url.urlDetail)\(Url.popular)\(Url.apiKey)", completion)
+    }
+    
+    func fetchMovieDetail(id: Int, _ completion: @escaping (MovieDetail) -> Void) {
+        fetchData(urlString: "\(Url.urlDetail)\(id)?\(Url.apiKey)", completion)
+    }
+    
+    func fetchTrailer(id: Int, _ completion: @escaping (Trailer) -> Void) {
+        fetchData(urlString: "\(Url.urlDetail)\(id)\(Url.videos)\(Url.apiKey)", completion)
+    }
+      
+    // MARK: - Private methods
 
-    func fetchData<T: Decodable>(urlString: String, _ completionHandler: @escaping (T) -> Void) {
+    private func fetchData<T: Decodable>(urlString: String, _ completion: @escaping (T) -> Void) {
         guard let url = URL(string: urlString) else { return }
         
         URLSession.shared.dataTask(with: url) { data, _, error in
@@ -32,7 +48,7 @@ class Networking {
             if let data = data {
                 do {
                     let result = try JSONDecoder().decode(T.self, from: data)
-                    completionHandler(result)
+                    completion(result)
                 } catch let error {
                     print(error.localizedDescription)
                 }

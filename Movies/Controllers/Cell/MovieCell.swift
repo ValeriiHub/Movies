@@ -9,6 +9,8 @@ import UIKit
 
 class MovieCell: UITableViewCell {
 
+    private static let formatter = DateFormatter()
+    
     @IBOutlet weak var posterImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var releaseDateLabel: UILabel!
@@ -19,24 +21,22 @@ class MovieCell: UITableViewCell {
         titleLabel.text = movie.title
         releaseDateLabel.text = convertDate(from: movie.releaseDate)
         languageLabel.text = movie.originalLanguage == "en" ? "🇺🇸" : "🇪🇸"
-        ratingLabel.text = "⭐️ \(movie.voteAverage ?? 0)"
+        ratingLabel.text = "⭐️ \(movie.voteAverage)"
         
-        guard let urlString = movie.posterPath else { return }
-        guard let imageUrl = URL(string: posterUrl + urlString ) else { return }
+        guard let imageUrl = URL(string: Url.urlPoster + movie.posterPath ) else { return }
         DispatchQueue.global().async {
             guard let imageData = try? Data(contentsOf: imageUrl) else { return }
-            DispatchQueue.main.async {
-                self.posterImage.image = UIImage(data: imageData)
+            DispatchQueue.main.async { [weak self] in
+                self?.posterImage.image = UIImage(data: imageData)
             }
         }
     }
     
-    func convertDate(from string: String?) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        if let releaseDate = dateFormatter.date(from: string ?? "") {
-            dateFormatter.dateFormat = "MMM d, yyyy"
-            return dateFormatter.string(from: releaseDate)
+    private func convertDate(from string: String?) -> String {
+        MovieCell.formatter.dateFormat = "yyyy-MM-dd"
+        if let releaseDate = MovieCell.formatter.date(from: string ?? "") {
+            MovieCell.formatter.dateFormat = "MMM d, yyyy"
+            return MovieCell.formatter.string(from: releaseDate)
         }
         return ""
     }
