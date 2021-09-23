@@ -4,7 +4,7 @@
   #### ✅Архитектура MVC.
   #### ✅Работа с URLSession, JSONDecoder.
   #### ✅API https://developers.themoviedb.org/
-  #### ✅Использована WKWebView.
+  #### ✅Использован WKWebView.
   #### ✅Подключена библиотека SDWebImage.
 
 

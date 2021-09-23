@@ -27,6 +27,10 @@ class DetailViewController: UIViewController {
     
     var movie: Movie?
     
+    // MARK: - Private properties
+    
+    private var networking: NetworkingProtocol = Networking.shared
+    
     // MARK: - Lifecycle
         
     override func viewDidLoad() {
@@ -51,8 +55,8 @@ class DetailViewController: UIViewController {
         posterImage.sd_setImage(with: imageUrl, placeholderImage: #imageLiteral(resourceName: "Movies"))
     }
     
-    private func configureDetail(from movie: Movie) { 
-        Networking.shared.fetchMovieDetail(id: movie.id) { movieDetail in
+    private func configureDetail(from movie: Movie) {
+        networking.fetchMovieDetail(id: movie.id) { movieDetail in
             DispatchQueue.main.async { [weak self] in
                 self?.runtimeLabel.text = "🕒 \(movieDetail.runtime) min"
                 self?.genresLabel.text = movieDetail.genres.first?.name
@@ -71,4 +75,3 @@ class DetailViewController: UIViewController {
         }
     }
 }
-

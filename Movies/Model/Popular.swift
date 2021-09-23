@@ -1,5 +1,5 @@
 //
-//  Movie.swift
+//  Popular.swift
 //  Movies
 //
 //  Created by Valerii D on 19.09.2021.

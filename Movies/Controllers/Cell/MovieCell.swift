@@ -8,15 +8,23 @@
 import UIKit
 import SDWebImage
 
+// MARK: - MovieCell
+
 class MovieCell: UITableViewCell {
 
+    // MARK: - Static properties
+    
     private static let formatter = DateFormatter()
+    
+    // MARK: - IBOutlets
     
     @IBOutlet weak var posterImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var releaseDateLabel: UILabel!
     @IBOutlet weak var languageLabel: UILabel!
     @IBOutlet weak var ratingLabel: UILabel!
+    
+    // MARK: - Public methods
     
     func configure(_ movie: Movie) {
         titleLabel.text = movie.title
@@ -27,6 +35,8 @@ class MovieCell: UITableViewCell {
         guard let imageUrl = URL(string: Url.urlPoster + movie.posterPath ) else { return }
         posterImage.sd_setImage(with: imageUrl, placeholderImage: #imageLiteral(resourceName: "Movies"))
     }
+    
+    // MARK: - Private methods
     
     private func convertDate(from string: String?) -> String {
         MovieCell.formatter.dateFormat = "yyyy-MM-dd"

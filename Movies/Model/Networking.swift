@@ -7,6 +7,13 @@
 
 import Foundation
 
+// MARK: - Protocols
+protocol NetworkingProtocol {
+    func fetchPopular(_ completion: @escaping (Popular) -> Void)
+    func fetchMovieDetail(id: Int, _ completion: @escaping (MovieDetail) -> Void)
+    func fetchTrailer(id: Int, _ completion: @escaping (Trailer) -> Void)
+}
+
 // MARK: - Url
 
 enum Url {
@@ -20,15 +27,15 @@ enum Url {
 
 // MARK: - Networking
 
-class Networking {
+class Networking: NetworkingProtocol {
     
     // MARK: - Static properties
     
- static var shared = Networking()
+ static let shared = Networking()
     
     // MARK: - Public methods
     
-    func fetchResult(_ completion: @escaping (Result) -> Void) {
+    func fetchPopular(_ completion: @escaping (Popular) -> Void) {
         fetchData(urlString: "\(Url.urlDetail)\(Url.popular)\(Url.apiKey)", completion)
     }
     
@@ -61,4 +68,6 @@ class Networking {
             }
         }.resume()
     }
+    
+    private init() {}
 }

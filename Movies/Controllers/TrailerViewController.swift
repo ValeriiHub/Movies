@@ -20,6 +20,10 @@ class TrailerViewController: UIViewController {
     
     var id: Int?
     
+    // MARK: - Private properties
+    
+    private var networking: NetworkingProtocol = Networking.shared
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -33,7 +37,7 @@ class TrailerViewController: UIViewController {
     // MARK: - Private methods
     
     private func fetchTrailerKey(from id: Int) {
-        Networking.shared.fetchTrailer(id: id) { trailer in
+        networking.fetchTrailer(id: id) { trailer in
             DispatchQueue.main.async { [weak self] in
                 if let key = trailer.results.first?.key {
                     self?.fetchTrailer(from: key)

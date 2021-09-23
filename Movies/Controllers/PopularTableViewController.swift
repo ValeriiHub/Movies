@@ -7,20 +7,21 @@
 
 import UIKit
 
-// MARK: - MoviesTableViewController
+// MARK: - PopularTableViewController
 
-class MoviesTableViewController: UITableViewController {
+class PopularTableViewController: UITableViewController {
     
     // MARK: - Private properties
     
     private var movies: [Movie] = []
+    private var networking: NetworkingProtocol = Networking.shared
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        Networking.shared.fetchResult { movies in
+        networking.fetchPopular { movies in
             self.movies = movies.results
             DispatchQueue.main.async {
                 self.tableView.reloadData()
